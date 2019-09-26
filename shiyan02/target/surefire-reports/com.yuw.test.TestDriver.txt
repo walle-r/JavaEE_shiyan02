@@ -1,0 +1,17 @@
+-------------------------------------------------------------------------------
+Test set: com.yuw.test.TestDriver
+-------------------------------------------------------------------------------
+Tests run: 5, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 0.887 s <<< FAILURE! - in com.yuw.test.TestDriver
+test02(com.yuw.test.TestDriver)  Time elapsed: 0.036 s  <<< ERROR!
+org.apache.ibatis.exceptions.PersistenceException: 
+
+### Error querying database.  Cause: java.lang.NullPointerException: Can't add values % , null
+### Cause: java.lang.NullPointerException: Can't add values % , null
+	at com.yuw.test.TestDriver.test02(TestDriver.java:73)
+Caused by: java.lang.NullPointerException: Can't add values % , null
+	at com.yuw.test.TestDriver.test02(TestDriver.java:73)
+
+test03(com.yuw.test.TestDriver)  Time elapsed: 0.027 s  <<< ERROR!
+org.apache.ibatis.binding.BindingException: Invalid bound statement (not found): com.yuw.dao.UserInfoBeanMapper.selectByPrimaryKey
+	at com.yuw.test.TestDriver.test03(TestDriver.java:96)
+

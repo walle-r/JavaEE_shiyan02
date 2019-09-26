@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuw.dao.UserInfoBeanMapper">
+  <resultMap id="BaseResultMap" type="com.yuw.bean.UserInfoBean">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="price" jdbcType="VARCHAR" property="price" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, price
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    name ,id,price
+    from product
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <!--
+    动态查询: like 后面的 %% 串 除了是 bind  还可以使用mysql的字符串拼接函数  concat
+    -->
+  <select id="selectUserInfoByParams" parameterType="userInfoBean" resultMap="BaseResultMap">
+    <bind name="patternName" value="'%' + _parameter.getName() + '%'" />
+
+    select
+    <include refid="Base_Column_List"/>
+    from userinfo
+
+    <where>
+
+
+
+      <if test="record.name != null and record.name != ''">
+
+        and name  like "%"#{record.name,jdbcType=VARCHAR}"%"
+      </if>
+      <if test="record.price != null and record.price != ''">
+
+        and price like "%"#{record.price,jdbcType=VARCHAR}"%"
+      </if>
+      <if test="record.id != null and record.id != ''">
+
+        and id like "%"#{record.id,jdbcType=VARCHAR}"%"
+      </if>
+
+
+    </where>
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from product
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yuw.bean.UserInfoBean">
+    insert into product (id, name, price
+      )
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{price,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yuw.bean.UserInfoBean">
+    insert into product
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yuw.bean.UserInfoBean">
+    update product
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yuw.bean.UserInfoBean">
+    update product
+    set name = #{name,jdbcType=VARCHAR},
+      price = #{price,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
